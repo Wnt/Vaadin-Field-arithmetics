@@ -3,6 +3,7 @@ package org.vaadin.addons.jonni.fieldarithmetics.demo;
 import javax.servlet.annotation.WebServlet;
 
 import org.vaadin.addons.jonni.fieldarithmetics.FieldArithmetics;
+import org.vaadin.risto.stepper.FloatStepper;
 
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
@@ -54,12 +55,28 @@ public class DemoUI extends UI {
 		FieldArithmetics.extend(ta);
 		layout.addComponent(ta);
 
-		field.addValueChangeListener(new ValueChangeListener() {
+		ta.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show(
 						"TextArea value changed to: '" + ta.getValue() + "'",
+						Notification.Type.TRAY_NOTIFICATION);
+
+			}
+		});
+
+		
+		final FloatStepper stepper = new FloatStepper();
+		FieldArithmetics.extend(stepper);
+		layout.addComponent(stepper);
+
+		stepper.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Notification.show(
+						"FloatStepper value changed to: '" + stepper.getValue() + "'",
 						Notification.Type.TRAY_NOTIFICATION);
 
 			}

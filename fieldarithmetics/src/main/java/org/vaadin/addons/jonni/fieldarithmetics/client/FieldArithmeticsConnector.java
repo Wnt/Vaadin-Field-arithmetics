@@ -8,6 +8,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.TextBoxBase;
+import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
@@ -94,9 +95,20 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 	@Override
 	protected void extend(ServerConnector target) {
-		textField = (TextBoxBase) ((ComponentConnector) target).getWidget();
+		Widget widget = ((ComponentConnector) target).getWidget();
+		if (widget instanceof TextBoxBase) {
+			textField = (TextBoxBase) widget;
+		}
+		else {
+			textField = findTextFieldFromWidget(widget);
+		}
 		textField.addAttachHandler(eventListenerReplacer);
 
 	}
+
+	private native TextBoxBase findTextFieldFromWidget(Widget widget) /*-{
+		
+		return widget.@org.vaadin.risto.stepper.widgetset.client.ui.AbstractStepper::textBox;
+	}-*/;
 
 }
