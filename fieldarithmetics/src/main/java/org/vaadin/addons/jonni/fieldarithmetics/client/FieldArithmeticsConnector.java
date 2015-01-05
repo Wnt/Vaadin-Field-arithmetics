@@ -51,11 +51,15 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			String originalValue = textField.getText();
-			String evaluatedInput = evaluateInput(originalValue);
-			textField.setText(evaluatedInput);
+			updateFieldValue();
 		}
 	};
+
+	protected void updateFieldValue() {
+		String originalValue = textField.getText();
+		String evaluatedInput = evaluateInput(originalValue);
+		textField.setText(evaluatedInput);
+	}
 
 	native static public String evaluateInput(String inputStr) /*-{
 		var str = inputStr;
