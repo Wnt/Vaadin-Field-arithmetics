@@ -29,29 +29,31 @@ import com.vaadin.shared.ui.Connect;
 public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 	private VTextField textField;
-	private Logger l;
-	
+	private Logger l = Logger.getLogger("FieldArithmeticsConnector");
+
 	/**
-	 * Attach handler that replaces the TextField's event handler with our own version that intercepts on change events.
+	 * Attach handler that replaces the TextField's event handler with our own
+	 * version that intercepts on change events.
 	 */
 	private final AttachEvent.Handler eventListenerReplacer = new AttachEvent.Handler() {
-		
 
 		@Override
 		public void onAttachOrDetach(AttachEvent event) {
-			
+
 			Element tfElement = textField.getElement();
-			EventListener originalEventListener = DOM.getEventListener(tfElement);
-			// if (originalEventListener instanceof EvenInterceptor) {
-			// do not re-add the event listener
-			// return;
-			// }
+			EventListener originalEventListener = DOM
+					.getEventListener(tfElement);
+			if (originalEventListener instanceof EvenInterceptor) {
+				// do not re-add the event listener
+				return;
+			}
 			l.warning("tf attached:" + textField.isAttached());
 			l.warning("originalEventListener:" + originalEventListener);
-			
-			EvenInterceptor evenInterceptor = new EvenInterceptor(originalEventListener, overridingChangeHandler);
+
+			EvenInterceptor evenInterceptor = new EvenInterceptor(
+					originalEventListener, overridingChangeHandler);
 			DOM.setEventListener(tfElement, evenInterceptor);
-			
+
 		}
 	};
 	/**
@@ -70,16 +72,32 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 		}
 	};
 
-	public FieldArithmeticsConnector() {
-		l = Logger.getLogger("FieldArithmeticsConnector");
-	}
-
-	native protected String evaluateInput(String str) /*-{
+	native static public String evaluateInput(String inputStr) /*-{
+		var str = inputStr;
 	    var re1 = new RegExp(",", "g");
-	    str = str.replace(re1,".");
-	    var re2 = new RegExp("[^\\d\\+\\*\\.\\-/]", "g");
+		// if there are periods in the input string, remove commas (they are probably thousand separators)
+		if (str.indexOf(".") != -1) {
+		    str = str.replace(re1, "");
+		}
+	    else {
+	    	// no periods in input, replace commas with periods (they are probably decimal separators)
+		    str = str.replace(re1, ".");
+	    }
+	    
+	    // remove everything except numbers, periods, operators (+, *, -, /, ^) and parenthesis
+	    var re2 = new RegExp("[^\\d\\.\\+\\*\\-/\\^\\(\\)]", "g");
 	    str = str.replace(re2, "");
-	    return eval(str);
+	    
+	    // replace x^y expressions with Math.pow(x, y)
+	    var re3 = new RegExp("(\\d+)\\^(\\d+)", "g");
+	    str = str.replace(re3, "Math.pow($1, $2)");
+	    
+	    try {
+	    	str = eval(str);
+	    }
+	    catch (e) {
+	    }
+	    return str;
 	}-*/;
 
 	@Override
