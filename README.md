@@ -8,7 +8,7 @@ Try the add-on demo at http://jonni.jelastic.servint.net/FieldArtihmetics/ or se
 
 ## Download release
 
-Official releases of this add-on are available at Vaadin Directory. For Maven instructions, download and reviews, go to https://vaadin.com/directory#addon/fieldarithmetics-add-on
+Official releases of this add-on are available at Vaadin Directory. For Maven instructions, download and reviews, go to https://vaadin.com/addon/fieldarithmetics-add-on
 
 ## Building and running demo
 
