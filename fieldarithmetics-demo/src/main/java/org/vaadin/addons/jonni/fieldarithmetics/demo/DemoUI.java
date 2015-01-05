@@ -13,6 +13,7 @@ import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -31,26 +32,40 @@ public class DemoUI extends UI {
 	protected void init(VaadinRequest request) {
 
 		final TextField field = new TextField();
-		final FieldArithmetics fieldArithmetics = new FieldArithmetics();
-		fieldArithmetics.extend(field);
+		FieldArithmetics.extend(field);
 
 		field.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show(
-						"Field value changed to: '" + field.getValue() + "'",
+						"TextField value changed to: '" + field.getValue() + "'",
 						Notification.Type.TRAY_NOTIFICATION);
 
 			}
 		});
 
-		// Show it in the middle of the screen
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setStyleName("demoContentLayout");
 		layout.setSizeFull();
 		layout.addComponent(field);
-		layout.setComponentAlignment(field, Alignment.MIDDLE_CENTER);
+		
+		final TextArea ta = new TextArea();
+		FieldArithmetics.extend(ta);
+		layout.addComponent(ta);
+
+		field.addValueChangeListener(new ValueChangeListener() {
+
+			@Override
+			public void valueChange(ValueChangeEvent event) {
+				Notification.show(
+						"TextArea value changed to: '" + ta.getValue() + "'",
+						Notification.Type.TRAY_NOTIFICATION);
+
+			}
+		});
+		
+		
 		setContent(layout);
 
 	}

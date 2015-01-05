@@ -1,26 +1,15 @@
 package org.vaadin.addons.jonni.fieldarithmetics.client;
 
-import java.util.logging.Logger;
-
 import org.vaadin.addons.jonni.fieldarithmetics.FieldArithmetics;
 
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.shared.EventHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
+import com.google.gwt.user.client.ui.TextBoxBase;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
-import com.vaadin.client.communication.StateChangeEvent;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
 import com.vaadin.client.ui.VTextField;
 import com.vaadin.shared.ui.Connect;
@@ -28,7 +17,7 @@ import com.vaadin.shared.ui.Connect;
 @Connect(FieldArithmetics.class)
 public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
-	private VTextField textField;
+	private TextBoxBase textField;
 //	private Logger l = Logger.getLogger("FieldArithmeticsConnector");
 
 	/**
@@ -105,7 +94,7 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 	@Override
 	protected void extend(ServerConnector target) {
-		textField = (VTextField) ((ComponentConnector) target).getWidget();
+		textField = (TextBoxBase) ((ComponentConnector) target).getWidget();
 		textField.addAttachHandler(eventListenerReplacer);
 
 	}
