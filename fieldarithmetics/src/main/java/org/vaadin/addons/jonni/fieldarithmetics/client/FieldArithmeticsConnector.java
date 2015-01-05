@@ -29,7 +29,7 @@ import com.vaadin.shared.ui.Connect;
 public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 	private VTextField textField;
-	private Logger l = Logger.getLogger("FieldArithmeticsConnector");
+//	private Logger l = Logger.getLogger("FieldArithmeticsConnector");
 
 	/**
 	 * Attach handler that replaces the TextField's event handler with our own
@@ -47,8 +47,6 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 				// do not re-add the event listener
 				return;
 			}
-			l.warning("tf attached:" + textField.isAttached());
-			l.warning("originalEventListener:" + originalEventListener);
 
 			EvenInterceptor evenInterceptor = new EvenInterceptor(
 					originalEventListener, overridingChangeHandler);
@@ -64,10 +62,7 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 		@Override
 		public void onBrowserEvent(Event event) {
 			String originalValue = textField.getText();
-			l.warning("evaluating" + originalValue);
 			String evaluatedInput = evaluateInput(originalValue);
-			l.warning("originalValue: " + originalValue + " evaluatedInput: "
-					+ evaluatedInput);
 			textField.setText(evaluatedInput);
 		}
 	};
@@ -75,16 +70,24 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 	native static public String evaluateInput(String inputStr) /*-{
 		var str = inputStr;
 		var re1 = new RegExp(",", "g");
-		// if there are periods in the input string, remove commas (they are probably thousand separators)
+		
+		// instead of relying to the presence of periods could use something
+		// like http://stackoverflow.com/a/1308446 to figure out the separator
+		// characters in browsers that support it
+		
+		// if there are periods in the input string, remove commas (they are
+		// probably thousand separators)
 		if (str.indexOf(".") != -1) {
 			str = str.replace(re1, "");
 		}
 		else {
-			// no periods in input, replace commas with periods (they are probably decimal separators)
+			// no periods in input, replace commas with periods (they are
+			// probably decimal separators)
 			str = str.replace(re1, ".");
 		}
 		
-		// remove everything except numbers, periods, operators (+, *, -, /, ^) and parenthesis
+		// remove everything except numbers, periods, operators (+, *, -, /, ^)
+		// and parenthesis
 		var re2 = new RegExp("[^\\d\\.\\+\\*\\-/\\^\\(\\)]", "g");
 		str = str.replace(re2, "");
 		
@@ -106,10 +109,5 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 		textField.addAttachHandler(eventListenerReplacer);
 
 	}
-		
-
-	native private void consoleLog(JavaScriptObject o) /*-{
-		console.log(o);
-	}-*/;
 
 }
