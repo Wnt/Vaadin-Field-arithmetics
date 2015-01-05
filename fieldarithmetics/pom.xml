@@ -5,7 +5,7 @@
 	<groupId>org.vaadin.addons.jonni</groupId>
 	<artifactId>fieldarithmetics</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>FieldArithmetics Add-on</name>
 
 	<properties>
