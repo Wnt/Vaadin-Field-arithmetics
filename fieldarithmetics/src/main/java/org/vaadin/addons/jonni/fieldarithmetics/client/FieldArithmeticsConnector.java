@@ -12,7 +12,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.vaadin.client.ComponentConnector;
 import com.vaadin.client.ServerConnector;
 import com.vaadin.client.extensions.AbstractExtensionConnector;
-import com.vaadin.client.ui.VTextField;
 import com.vaadin.shared.ui.Connect;
 
 @Connect(FieldArithmetics.class)
@@ -27,20 +26,24 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 	 */
 	private final AttachEvent.Handler eventListenerReplacer = new AttachEvent.Handler() {
 
+
+
 		@Override
 		public void onAttachOrDetach(AttachEvent event) {
+			
+			if (textField.isAttached()) {
+				Element tfElement = textField.getElement();
+				EventListener originalEventListener = DOM
+						.getEventListener(tfElement);
+				if (originalEventListener instanceof EventInterceptor) {
+					// do not re-add the event listener
+					return;
+				}
 
-			Element tfElement = textField.getElement();
-			EventListener originalEventListener = DOM
-					.getEventListener(tfElement);
-			if (originalEventListener instanceof EvenInterceptor) {
-				// do not re-add the event listener
-				return;
+				EventInterceptor eventInterceptor = new EventInterceptor(
+						originalEventListener, overridingChangeHandler);
+				DOM.setEventListener(tfElement, eventInterceptor);
 			}
-
-			EvenInterceptor evenInterceptor = new EvenInterceptor(
-					originalEventListener, overridingChangeHandler);
-			DOM.setEventListener(tfElement, evenInterceptor);
 
 		}
 	};
