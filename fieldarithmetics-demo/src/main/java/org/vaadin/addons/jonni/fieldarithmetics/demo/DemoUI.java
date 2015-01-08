@@ -32,7 +32,7 @@ public class DemoUI extends UI {
 	@Override
 	protected void init(VaadinRequest request) {
 
-		final TextField field = new TextField();
+		final TextField field = new TextField("TextField");
 		FieldArithmetics.extend(field);
 
 		field.addValueChangeListener(new ValueChangeListener() {
@@ -40,18 +40,18 @@ public class DemoUI extends UI {
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show(
-						"TextField value changed to: '" + field.getValue() + "'",
-						Notification.Type.TRAY_NOTIFICATION);
+						"TextField value changed to: '" + field.getValue()
+								+ "'", Notification.Type.TRAY_NOTIFICATION);
 
 			}
 		});
 
 		final VerticalLayout layout = new VerticalLayout();
 		layout.setStyleName("demoContentLayout");
-		layout.setSizeFull();
+		 layout.setSizeUndefined();
 		layout.addComponent(field);
-		
-		final TextArea ta = new TextArea();
+
+		final TextArea ta = new TextArea("TextArea");
 		FieldArithmetics.extend(ta);
 		layout.addComponent(ta);
 
@@ -66,24 +66,26 @@ public class DemoUI extends UI {
 			}
 		});
 
-		
-		final FloatStepper stepper = new FloatStepper();
+		final FloatStepper stepper = new FloatStepper("FloatStepper");
 		FieldArithmetics.extend(stepper);
 		layout.addComponent(stepper);
+		stepper.setWidth(100, Unit.PERCENTAGE);
 
 		stepper.addValueChangeListener(new ValueChangeListener() {
 
 			@Override
 			public void valueChange(ValueChangeEvent event) {
 				Notification.show(
-						"FloatStepper value changed to: '" + stepper.getValue() + "'",
-						Notification.Type.TRAY_NOTIFICATION);
+						"FloatStepper value changed to: '" + stepper.getValue()
+								+ "'", Notification.Type.TRAY_NOTIFICATION);
 
 			}
 		});
-		
-		
-		setContent(layout);
+
+		VerticalLayout wrapper = new VerticalLayout(layout);
+		wrapper.setSizeFull();
+		wrapper.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+		setContent(wrapper);
 
 	}
 
