@@ -3,8 +3,6 @@ package org.vaadin.addons.jonni.fieldarithmetics.client;
 import org.vaadin.addons.jonni.fieldarithmetics.FieldArithmetics;
 
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.TextBoxBase;
@@ -18,39 +16,28 @@ import com.vaadin.shared.ui.Connect;
 public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 
 	private TextBoxBase textField;
-//	private Logger l = Logger.getLogger("FieldArithmeticsConnector");
 
 	/**
-	 * Attach handler that replaces the TextField's event handler with our own
-	 * version that intercepts on change events.
+	 * Registers a listener to ChangeEventDispatcher that gets called before the
+	 * VTextField's ChangeHandler.onChange()
 	 */
-	private final AttachEvent.Handler eventListenerReplacer = new AttachEvent.Handler() {
-
-
+	private final AttachEvent.Handler changeListenerRegistrator = new AttachEvent.Handler() {
 
 		@Override
 		public void onAttachOrDetach(AttachEvent event) {
-			
 			if (textField.isAttached()) {
-				Element tfElement = textField.getElement();
-				EventListener originalEventListener = DOM
-						.getEventListener(tfElement);
-				if (originalEventListener instanceof EventInterceptor) {
-					// do not re-add the event listener
-					return;
-				}
-
-				EventInterceptor eventInterceptor = new EventInterceptor(
-						originalEventListener, overridingChangeHandler);
-				DOM.setEventListener(tfElement, eventInterceptor);
+				ChangeEventDispatcher.addChangeListener(textField.getElement(),
+						changeListener);
+			} else {
+				ChangeEventDispatcher.removeChangeListener(textField
+						.getElement());
 			}
-
 		}
 	};
 	/**
-	 * EventListener that evaluates the inputed values
+	 * EventListener that calls the evaluation logic
 	 */
-	private final EventListener overridingChangeHandler = new EventListener() {
+	private final EventListener changeListener = new EventListener() {
 
 		@Override
 		public void onBrowserEvent(Event event) {
@@ -58,12 +45,21 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 		}
 	};
 
+	/**
+	 * Updates field value based on it's current value and the evaluation logic
+	 */
 	protected void updateFieldValue() {
 		String originalValue = textField.getText();
 		String evaluatedInput = evaluateInput(originalValue);
 		textField.setText(evaluatedInput);
 	}
 
+	/**
+	 * Returns the evaluated version of the input string
+	 * 
+	 * @param inputStr
+	 * @return
+	 */
 	native static public String evaluateInput(String inputStr) /*-{
 		var str = inputStr;
 		var re1 = new RegExp(",", "g");
@@ -109,7 +105,7 @@ public class FieldArithmeticsConnector extends AbstractExtensionConnector {
 		else {
 			textField = findTextFieldFromWidget(widget);
 		}
-		textField.addAttachHandler(eventListenerReplacer);
+		textField.addAttachHandler(changeListenerRegistrator);
 
 	}
 

@@ -1,7 +1,10 @@
 <module>
 
 	<!-- WS Compiler: manually edited -->
-
+	
+    <!-- The entry-point for the client-side application -->
+    <entry-point class="org.vaadin.addons.jonni.fieldarithmetics.client.ChangeEventDispatcher"/>
+    
 	<!-- Inherit DefaultWidgetSet -->
 	<inherits name="com.vaadin.DefaultWidgetSet" /> 
 	<inherits name="org.vaadin.risto.stepper.widgetset.StepperWidgetset" /> 
