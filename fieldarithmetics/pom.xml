@@ -22,24 +22,22 @@
 		<Vaadin-Addon>${artifactId}-${project.version}.jar</Vaadin-Addon>
 	</properties>
 
-    <!--     
 	<organization>
-		<name>My Name</name>
-		<url>https://github.com/mygithubaccount/FieldArithmetics/</url>
+		<name>Vaadin Community</name>
+		<url>https://github.com/Wnt/Vaadin-Field-arithmetics/</url>
 	</organization>
     
 	<scm>
-		<url>git://github.com/mygithubaccount/FieldArithmetics.git</url>
-		<connection>scm:git:git://github.com/mygithubaccount/FieldArithmetics.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com:/mygithubaccount/${ComponentClassName}.git</developerConnection>
+		<url>git://github.com/Wnt/Vaadin-Field-arithmetics.git</url>
+		<connection>scm:git:git://github.com/Wnt/Vaadin-Field-arithmetics.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com:/Wnt/Vaadin-Field-arithmetics.git</developerConnection>
 		<tag>FieldArithmetics add-on for Vaadin</tag>
 	</scm>
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/mygithubaccount/FieldArithmetics/issues</url>
+		<url>https://github.com/Wnt/Vaadin-Field-arithmetics/issues</url>
 	</issueManagement>
-    -->
 
 	<licenses>
 		<license>
