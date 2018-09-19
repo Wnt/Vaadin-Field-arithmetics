@@ -1,3 +1,6 @@
+[![Published on Vaadin  Directory](https://img.shields.io/badge/Vaadin%20Directory-published-00b4f0.svg)](https://vaadin.com/directory/component/fieldarithmetics-add-on)
+[![Stars on Vaadin Directory](https://img.shields.io/vaadin-directory/star/fieldarithmetics-add-on.svg)](https://vaadin.com/directory/component/fieldarithmetics-add-on)
+
 # FieldArithmetics Add-on for Vaadin 7
 
 FieldArithmetics is an extension add-on that evaluates simple calculations on the client-side before the field value is sent to the server side. in addition to the basic operations: +, -, /, *. (plus, minus, division, multiplication) it also has limited support for ^ (power operator), parathesis and locale (thousand and decimal separator) auto guessing.
